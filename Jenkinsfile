@@ -8,14 +8,14 @@ pipeline{
         }
         stage('build Docker image'){
             steps{
-                sh 'docker build -t oguzhan.azurecr.io/tetris .'
+                sh 'docker build -t oguzhanaydogan.azurecr.io/tetris .'
             }
         }
         stage('push image'){
             steps{
                 withCredentials([usernamePassword(credentialsId: 'acr', passwordVariable: 'password', usernameVariable: 'username')]) {
-                sh 'docker login -u ${username} -p ${password} oguzhan.azurecr.io'        
-                sh 'docker push oguzhan.azurecr.io/tetris'
+                sh 'docker login -u ${username} -p ${password} oguzhanaydogan.azurecr.io'        
+                sh 'docker push oguzhanaydogan.azurecr.io/tetris'
                 }
             }
         }
@@ -25,7 +25,7 @@ pipeline{
                 sh 'az login --service-principal -u ${AZURE_CLIENT_ID} -p ${AZURE_CLIENT_SECRET} --tenant ${AZURE_TENANT_ID}'
                 }
                 withCredentials([usernamePassword(credentialsId: 'acr', passwordVariable: 'password', usernameVariable: 'username')]) {
-                sh 'az webapp config container set --name oguzhanaydogan --resource-group Tetris-Jenkins --docker-custom-image-name oguzhan.azurecr.io/tetris:latest --docker-registry-server-url https://oguzhan.azurecr.io --docker-registry-server-user ${username} --docker-registry-server-password ${password}'
+                sh 'az webapp config container set --name oguzhanaydogan-app --resource-group Tetris-Jenkins --docker-custom-image-name oguzhanaydogan.azurecr.io/tetris:latest --docker-registry-server-url https://oguzhanaydogan.azurecr.io --docker-registry-server-user ${username} --docker-registry-server-password ${password}'
                 }
             }
         }
