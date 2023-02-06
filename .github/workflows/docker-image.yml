@@ -14,23 +14,28 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    
     - name: Login to ACR
       uses: docker/login-action@v2
       with:
         registry: oguzhanaydogan.azurecr.io
         username: oguzhanaydogan
         password: ${{ secrets.AZURE_CLIENT_SECRET }}
+        
     - name: Build and push
       uses: docker/build-push-action@v4
       with:
         push: true
         tags: oguzhanaydogan.azurecr.io/tetris:latest
+        
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
+        
     - name: 'Set private registry authentication settings'
       run: az webapp config container set --name oguzhanaydogan-app --resource-group rg1 --docker-registry-server-user oguzhanaydogan --docker-registry-server-password ${{ secrets.AZURE_CLIENT_SECRET }}
+      
     - uses: azure/webapps-deploy@v2
       with:
         app-name: 'oguzhanaydogan-app'
