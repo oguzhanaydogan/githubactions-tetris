@@ -21,7 +21,7 @@ pipeline{
         }
         stage('deploy web appp'){
             steps{
-                withCredentials([azureServicePrincipal('AZURE_SERVICE_PRINCIPAL')]) {
+                withCredentials([azureServicePrincipal('azure_service_principal')]) {
                 sh 'az login --service-principal -u ${AZURE_CLIENT_ID} -p ${AZURE_CLIENT_SECRET} --tenant ${AZURE_TENANT_ID}'
                 }
                 withCredentials([usernamePassword(credentialsId: 'acr', passwordVariable: 'password', usernameVariable: 'username')]) {
