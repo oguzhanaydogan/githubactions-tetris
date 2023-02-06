@@ -25,7 +25,7 @@ pipeline{
                 sh 'az login --service-principal -u ${AZURE_CLIENT_ID} -p ${AZURE_CLIENT_SECRET} --tenant ${AZURE_TENANT_ID}'
                 }
                 withCredentials([usernamePassword(credentialsId: 'acr', passwordVariable: 'password', usernameVariable: 'username')]) {
-                sh 'az webapp config container set --name oguzhanaydogan-app --resource-group Tetris-Jenkins --docker-custom-image-name oguzhanaydogan.azurecr.io/tetris:latest --docker-registry-server-url https://oguzhanaydogan.azurecr.io --docker-registry-server-user ${username} --docker-registry-server-password ${password}'
+                sh 'az webapp config container set --name oguzhanaydogan-app --resource-group rg1 --docker-custom-image-name oguzhanaydogan.azurecr.io/tetris:latest --docker-registry-server-url https://oguzhanaydogan.azurecr.io --docker-registry-server-user ${username} --docker-registry-server-password ${password}'
                 }
             }
         }
