@@ -1,0 +1,27 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Login to ACR
+      uses: docker/login-action@v2
+      with:
+        registry: oguzhanaydogan.azurecr.io
+        username: oguzhanaydogan
+        password: ${{ secrets.AZURE_CLIENT_SECRET }}
+    - name: Build and push
+      uses: docker/build-push-action@v4
+      with:
+        push: true
+        tags: oguzhanaydogan.azurecr.io/tetris:latest
