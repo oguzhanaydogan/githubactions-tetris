@@ -25,3 +25,13 @@ jobs:
       with:
         push: true
         tags: oguzhanaydogan.azurecr.io/tetris:latest
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
+    - name: 'Set private registry authentication settings'
+      run: az webapp config container set --name oguzhanaydogan-app --resource-group rg1 --docker-registry-server-user oguzhanaydogan --docker-registry-server-password ${{ secrets.AZURE_CLIENT_SECRET }}
+    - uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'oguzhanaydogan-app'
+        images: 'oguzhanaydogan.azurecr.io/tetris:latest'
